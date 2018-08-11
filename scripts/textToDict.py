@@ -3,7 +3,7 @@ import string
 import csv
 
 INPUT_FILE = 'test-dataset.csv'
-OUT_FILE = 'out.csv'
+OUT_FILE = "out.csv"
 
 with open(INPUT_FILE, 'r') as f:
     with open(OUT_FILE, 'w') as outfile:
@@ -16,7 +16,7 @@ with open(INPUT_FILE, 'r') as f:
             except Exception as e:
                 print('bad csv format')
                 raise e
-            for word in text.translate(None, string.punctuation) \
+            for word in text.translate(string.punctuation) \
                             .replace('\n', '') \
                             .split(' '):
                 vector[word] = vector[word] + 1 if word in vector else 0
