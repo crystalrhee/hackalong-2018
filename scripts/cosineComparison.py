@@ -19,7 +19,10 @@ with open("out.csv", newline='') as csvfile:
 				frontEndVector.append(testFrontEndInput[word])
 			except KeyError:
 				frontEndVector.append(0) #this means only keys that are in the current scraped dictionary will be added to the inputted one. If they were added, they would be 0 (as they're only in one of the dicts) and so this saves computation time
-		theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector)))) #theta = cos^-1(a.b/|a||b|)
-		similarities[theta] = gitURL
-
-print("Most similar github repo:", similarities[max(list(similarities.keys()))])
+		if sum(frontEndVector) != 0:
+			theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector)))) #theta = cos^-1(a.b/|a||b|)
+			similarities[gitURL] = theta
+		else:
+			theta = 0
+			
+print("Most similar github repo:", sorted(similarities.items())[-1][1])
