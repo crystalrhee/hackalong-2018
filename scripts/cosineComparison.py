@@ -24,5 +24,10 @@ with open("out.csv", newline='') as csvfile:
 			similarities[gitURL] = theta
 		else:
 			theta = 0
+<<<<<<< HEAD
 
 print("Most similar github repo:", sorted(similarities.items())[-1][0])
+=======
+			
+print("Most similar github repo:", sorted(similarities.items())[-1][0])
+>>>>>>> d59624a05a097c83221f9f8ec7a25e0efd92800e
