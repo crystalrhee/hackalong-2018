@@ -1,1 +1,2 @@
 FLASK_APP=micro.py
+FLASK_DEBUG=1

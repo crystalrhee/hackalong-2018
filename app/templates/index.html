@@ -1,8 +1,16 @@
-<html>
-    <head>
-        <title>{{ title }}</title>
-    </head>
-    <body>
-        <h1>Hello, {{ user.username }}!</h1>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Github Link</h1>
+        <p>add your github link here</p>
+        <form>
+            <div class="field-box fielf-url">
+                <input type="text" id="github_url" placeholder="www.github/your-username"/>
+                <label>Github URL</label>
+            </div>
+            <button class="btn btn-small submit-button"></button>
+        </form>
+
+    </div>
+{% endblock %}
