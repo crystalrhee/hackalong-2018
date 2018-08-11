@@ -14,12 +14,12 @@ with open("out.csv", newline='') as csvfile:
 		gitURL = row[0]
 		tagLineDict = json.loads(row[1])
 		scrapedVector = list(tagLineDict.values())
-		for word in list(tagLineD ict.keys()): #need only dict keys, need to convert the returned value froms .keys() from a dict object to a list
+		for word in list(tagLineDict.keys()): #need only dict keys, need to convert the returned value froms .keys() from a dict object to a list
 			try:
 				frontEndVector.append(testFrontEndInput[word])
 			except KeyError:
 				frontEndVector.append(0) #this means only keys that are in the current scraped dictionary will be added to the inputted one. If they were added, they would be 0 (as they're only in one of the dicts) and so this saves computation time
-		theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), (np.linalg.norm(scrapedVector)*np.linalg.norm(frontEndVector)))) #theta = cos^-1(a.b/|a||b|)
+		theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector)))) #theta = cos^-1(a.b/|a||b|)
 		similarities[theta] = gitURL
 
 print("Most similar github repo:", similarities[max(list(similarities.keys()))])
