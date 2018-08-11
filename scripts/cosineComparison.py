@@ -25,4 +25,4 @@ with open("out.csv", newline='') as csvfile:
 		else:
 			theta = 0
 			
-print("Most similar github repo:", sorted(similarities.items())[-1][1])
+print("Most similar github repo:", sorted(similarities.items())[-1][0])
