@@ -20,4 +20,4 @@ with open(INPUT_FILE, 'r') as f:
                             .replace('\n', '') \
                             .split(' '):
                 vector[word] = vector[word] + 1 if word in vector else 0
-            writer.writerow([url, vector])
+            writer.writerow([url, json.dumps(vector)])

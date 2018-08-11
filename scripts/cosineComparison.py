@@ -1,7 +1,8 @@
 import numpy as np 
 import csv
+import json
 
-with open("test.csv", newline='') as csvfile:
+with open("out.csv", newline='') as csvfile:
 
 	scrapedData = csv.reader(csvfile)
 	testInput = {"dish":420, "wash":69, "lit":1337, "tv":0} #to be replaced with real input from the front end
@@ -11,7 +12,7 @@ with open("test.csv", newline='') as csvfile:
 	for row in scrapedData:
 		frontEndVector = []
 		gitURL = row[0]
-		tagLineDict = row[1]
+		tagLineDict = json.loads(row[1])
 		scrapedVector = list(tagLineDict.values())
 		for word in list(tagLineDict.keys()): #need only dict keys, need to convert the returned value froms .keys() from a dict object to a list
 			try:
