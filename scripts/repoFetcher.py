@@ -7,7 +7,8 @@ import json
 import csv
 
 OUTFILE = 'repo-contents.csv'
-TOKEN = '72b700049e7acda343efafd1b9701bc4758bb01d'
+TOKEN = '658f5a0c4bf808a8cfc889b681eba909468bacd1'
+STATE = 'state'
 
 def getReadmeFromUrl(repo_url):
     print(repo_url)
@@ -34,9 +35,12 @@ def runMultiple(repo_urls, outfile, threads=2):
 
 prev_id = 1
 writer = None
-count = 1
 
-with open(OUTFILE, 'w') as outfile:
+with open(OUTFILE, 'a') as outfile:
+    with open(STATE, 'r') as state:
+        s = state.read()
+        if s:
+            prev_id = int(s)
     writer = csv.writer(outfile)
     while True:
         try:
@@ -48,9 +52,10 @@ with open(OUTFILE, 'w') as outfile:
                     html = o['html_url']
                     arr.append(html)
                     prev_id = o['id']
-                    count += 1
-                print('====== downloading', count, '======')
+                print('====== downloading', prev_id, '======')
                 runMultiple(arr, outfile, 8)
+                with open(STATE, 'w') as state:
+                    state.write(str(prev_id))
         except Exception as e:
             print(e)
             pass
