@@ -22,7 +22,7 @@ form .field-box {
 	width: 80%;
 }
 
-form #github_url {
+form #username {
 	background-color: #eeeeee;
 	border: none;
 	height: 100%;
@@ -70,6 +70,13 @@ input:focus, .btn:focus {
 	background-color: #00adb5;
 	border-radius: 0;
 	color: white;
+	outline: none;
+}
+
+.submit-btn:hover {
+	background-color: #222831;
+	border-radius: 0;
+	color: #00adb5;
 	outline: none;
 }
 

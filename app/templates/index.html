@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
+{% block header %}
+<i class="fas fa-search"></i>
+{% endblock %}
+
 {% block content %}
     <div class="container mt-5 py-5">
-        <h1>Github Link</h1>
-        <p>add your github link here</p>
+        <h1>Github Repo</h1>
+        <p>Add your github repository url here</p>
         <form>
             <div class="field-box m-auto py-2">
-                <input type="text" id="github_url" placeholder="www.github.com/your-username" autocomplete="off"/>
-                <label>Github URL</label>
+                <input type="text" id="username" placeholder="" autocomplete="off"/>
+                <label>Username</label>
             </div>
             <input class="btn btn-small submit-btn my-3" type="submit" value="SUBMIT"></input>
         </form>
