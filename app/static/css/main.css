@@ -10,76 +10,29 @@ p {
 }
 
 .header {
-	display: none;
-}
-
-.container {
-	border-left: 10px solid #222831;
-	background-color: white;
-	text-align: center;
-}
-
-form .field-box {
-	background-color: #eeeeee;
-	border: none;
+	line-height: 20px;
+	margin: 5% auto;
 	position: relative;
-	width: 80%;
 }
 
-form #username {
-	background-color: #eeeeee;
-	border: none;
-	height: 100%;
-	padding-left: 25%;
-	width: 100%;
-}
-
-form label {
-	background-color: #222831;
-	color: white;
-	height: 100%;
-	left: 0;
-	line-height: 40px;
+.header i {
+	animation: float 1.4s ease-in-out infinite;
 	position: absolute;
+	left: 50%;
 	top: 0;
-	vertical-align: middle;
-	width: 100%;
-
-	-webkit-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -moz-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -o-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+	transform: translate(50%, 0);
 }
 
-form .field-box:hover label, form .focus label {
-	background-color: #00adb5;
-	width: 20%;
-
-	-webkit-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -moz-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -o-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+@keyframes float {
+	0%, 100% {
+		transform: translate(-50%, -5px);
+	}
+	50% {
+		transform: translate(-50%, 0);
+	}
 }
 
-input, .btn {
-	outline: none;
+.header h2 {
+	padding: 70px 0 50px;
 }
 
-input:focus, .btn:focus {
-	outline: none;
-	box-shadow: none;
-}
-
-.submit-btn {
-	background-color: #00adb5;
-	border-radius: 0;
-	color: white;
-	outline: none;
-}
-
-.submit-btn:hover {
-	background-color: #222831;
-	border-radius: 0;
-	color: #00adb5;
-	outline: none;
-}
