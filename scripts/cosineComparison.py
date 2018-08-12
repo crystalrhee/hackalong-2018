@@ -44,7 +44,7 @@ with open("out.csv", newline='') as csvfile:
 			theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector)))) #theta = cos^-1(a.b/|a||b|)
 			similarities[gitURL] = theta
 		else:
-			theta = -1
+			similarities[gitURL] = -1
 
 print("Most similar github repo:", sorted(similarities.items())[-1][0])
 
