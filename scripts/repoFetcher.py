@@ -7,9 +7,10 @@ import json
 import csv
 
 OUTFILE = 'repo-contents.csv'
-TOKEN = 'f87cf5e251ded346eeda02e7e861f732ee0dbdc5'
+TOKEN = '7a7129d335966341f0f720bf1198a17df1f567ed'
 
 def getReadmeFromUrl(repo_url):
+    print(repo_url)
     obj = urlparse(repo_url)
     names = ['README', 'readme']
     extensions = ['', '.txt', '.md']
@@ -36,7 +37,7 @@ writer = None
 count = 1
 with open(OUTFILE, 'w') as outfile:
     writer = csv.writer(outfile)
-    for _ in range(10000):
+    for _ in range(1):
         url = 'https://api.github.com/repositories?access_token={}&since={}'.format(TOKEN, prev_id)
         with request.urlopen(url) as response:
             page = response.read()
@@ -45,6 +46,6 @@ with open(OUTFILE, 'w') as outfile:
                 html = o['html_url']
                 arr.append(html)
                 prev_id = o['id']
-                print(count, html)
                 count += 1
-            runMultiple(arr, outfile, 16)
+            print('====== downloading', count, '======')
+            runMultiple(arr, outfile, 8)
