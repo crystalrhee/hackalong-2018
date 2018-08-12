@@ -42,11 +42,8 @@ with open(OUTFILE, 'w') as outfile:
         with request.urlopen(url) as response:
             page = response.read()
             arr = []
-            try:
-                for o in json.loads(page):
-                    arr.append(o['html_url'])
-                    prev_id = o['id']
-                    count += 1
-                runMultiple(arr, outfile, 8)
-            except:
-                pass
+            for o in json.loads(page):
+                arr.append(o['html_url'])
+                prev_id = o['id']
+                count += 1
+            runMultiple(arr, outfile, 8)
