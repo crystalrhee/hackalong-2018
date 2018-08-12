@@ -7,7 +7,7 @@ from repoFetcher import getReadmeFromUrl
 
 INPUT_FILE = 'scores.csv'
 
-def main(input_url = None):
+def main(input_url = None, top_x = 5):
 	input_readme = {"this":2, "is":1, "a":0, "lit":20, "test":5, "tagline":8, "dish":420, "wash":0, "famalam":40}
 	if input_url:
 		input_readme = textToDict(getReadmeFromUrl(input_url))
@@ -52,7 +52,11 @@ def main(input_url = None):
 				similarities[gitURL] = theta
 			else:
 				similarities[gitURL] = -1
-		print("Most similar github repo:", sorted(similarities.items())[-1][0])
+		scores = sorted(similarities.items())[-top_x:]
+		repos = list(map(lambda x: x[0], scores))
+		return repos
 
 if __name__ == '__main__':
-	main()
+	urls = main()
+	for url in urls: 
+		print (url)
