@@ -46,13 +46,13 @@ with open(OUTFILE, 'a') as outfile:
         try:
             url = 'https://api.github.com/repositories?access_token={}&since={}'.format(TOKEN, prev_id)
             with request.urlopen(url) as response:
+                print('====== downloading', prev_id, '======')
                 page = response.read().decode('utf-8')
                 arr = []
                 for o in json.loads(page):
                     html = o['html_url']
                     arr.append(html)
                     prev_id = o['id']
-                print('====== downloading', prev_id, '======')
                 runMultiple(arr, outfile, 8)
                 with open(STATE, 'w') as state:
                     state.write(str(prev_id))
