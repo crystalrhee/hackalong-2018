@@ -7,7 +7,8 @@ import json
 import csv
 
 OUTFILE = 'repo-contents.csv'
-TOKEN = '7a7129d335966341f0f720bf1198a17df1f567ed'
+TOKEN = '658f5a0c4bf808a8cfc889b681eba909468bacd1'
+STATE = 'state'
 
 def getReadmeFromUrl(repo_url):
     print(repo_url)
@@ -34,18 +35,28 @@ def runMultiple(repo_urls, outfile, threads=2):
 
 prev_id = 1
 writer = None
-count = 1
-with open(OUTFILE, 'w') as outfile:
+
+with open(OUTFILE, 'a') as outfile:
+    with open(STATE, 'r') as state:
+        s = state.read()
+        if s:
+            prev_id = int(s)
     writer = csv.writer(outfile)
-    for _ in range(1):
-        url = 'https://api.github.com/repositories?access_token={}&since={}'.format(TOKEN, prev_id)
-        with request.urlopen(url) as response:
-            page = response.read()
-            arr = []
-            for o in json.loads(page):
-                html = o['html_url']
-                arr.append(html)
-                prev_id = o['id']
-                count += 1
-            print('====== downloading', count, '======')
-            runMultiple(arr, outfile, 8)
+    while True:
+        try:
+            url = 'https://api.github.com/repositories?access_token={}&since={}'.format(TOKEN, prev_id)
+            with request.urlopen(url) as response:
+                print('====== downloading', prev_id, '======')
+                page = response.read().decode('utf-8')
+                arr = []
+                for o in json.loads(page):
+                    html = o['html_url']
+                    arr.append(html)
+                    prev_id = o['id']
+                runMultiple(arr, outfile, 8)
+                with open(STATE, 'w') as state:
+                    state.write(str(prev_id))
+        except Exception as e:
+            print(e)
+            pass
+
