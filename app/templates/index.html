@@ -11,12 +11,12 @@
 <div class="container py-5">
     <h1>Github Repo</h1>
     <p>Add your github project repository url here</p>
-    <form>
+    <form method="POST">
         <div class="field-box m-auto py-2">
-            <input type="text" id="project" placeholder="www.github.com/repository" autocomplete="off"/>
+            <input type="text" id="project" name="project" placeholder="www.github.com/repository" autocomplete="off"/>
             <label>Project</label>
         </div>
-        <input class="btn btn-main submit-btn my-3" value="SUBMIT"></input>
+        <input class="btn btn-main submit-btn my-3" type="submit" value="SUBMIT"></input>
     </form>
     <div class="loading-container hidden">
         <p>loading...</p>
