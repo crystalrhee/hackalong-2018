@@ -9,6 +9,12 @@ with open("out.csv", newline='') as csvfile:
 	testFrontEndInput = {"this":2, "is":1, "a":0, "lit":20, "test":5, "tagline":8, "dish":420, "wash":0, "famalam":40}
 	similarities = {}
 
+	def unusedWordRemoval(textDict):
+		inputWordSet = {i for i in list(testFrontEndInput.values())}
+		scrapedWordSet = {i for i in list(textDict.values())}
+		return scrapedWordSet.intersection(inputWordSet)
+
+
 	def tfidf(textDict):
 		words = list(text.values())
 		importance = {}
@@ -26,7 +32,7 @@ with open("out.csv", newline='') as csvfile:
 	for row in scrapedData:
 		frontEndVector = []
 		gitURL = row[0]
-		tagLineDict = json.loads(row[1])
+		tagLineDict = unusedWordRemoval(json.loads(row[1]))
 		scrapedVector = list(tagLineDict.values())
 		for word in tdidf(tagLineDict): #need only dict keys, need to convert the returned value froms .keys() from a dict object to a list
 			try:
