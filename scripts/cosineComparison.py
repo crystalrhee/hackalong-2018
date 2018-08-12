@@ -32,9 +32,10 @@ with open("out.csv", newline='') as csvfile:
 	for row in scrapedData:
 		frontEndVector = []
 		gitURL = row[0]
-		tagLineDict = unusedWordRemoval(json.loads(row[1]))
+		tagLineDict = json.loads(row[1])
 		scrapedVector = list(tagLineDict.values())
-		for word in tdidf(tagLineDict): #need only dict keys, need to convert the returned value froms .keys() from a dict object to a list
+		words = unusedWordRemoval(tdidf(tagLineDict))
+		for word in words: #need only dict keys, need to convert the returned value froms .keys() from a dict object to a list
 			try:
 				frontEndVector.append(testFrontEndInput[word])
 			except KeyError:
