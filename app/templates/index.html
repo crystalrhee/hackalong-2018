@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
+    <div class="container mt-5 py-5">
         <h1>Github Link</h1>
         <p>add your github link here</p>
         <form>
-            <div class="field-box fielf-url">
-                <input type="text" id="github_url" placeholder="www.github/your-username"/>
+            <div class="field-box field-url m-auto py-2">
+                <input type="text" id="github_url" placeholder="www.github.com/your-username" autocomplete="off"/>
                 <label>Github URL</label>
             </div>
-            <button class="btn btn-small submit-button">Submit</button>
+            <input class="btn btn-small submit-button" type="submit" value="Submit"></button>
         </form>
-
     </div>
 {% endblock %}
