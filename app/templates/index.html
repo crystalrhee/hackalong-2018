@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 
+{% block header %}
+<div class="bg-transparent border-0 container header">
+    <i class="fas fa-street-view fa-2x"></i>
+    <h2>Hello!</h2>
+</div>
+{% endblock %}
+
 {% block content %}
-    <div class="container mt-5 py-5">
-        <h1>Github Link</h1>
-        <p>add your github link here</p>
-        <form>
-            <div class="field-box field-url m-auto py-2">
-                <input type="text" id="github_url" placeholder="www.github.com/your-username" autocomplete="off"/>
-                <label>Github URL</label>
-            </div>
-            <input class="btn btn-small submit-button" type="submit" value="Submit"></button>
-        </form>
-    </div>
+<div class="container py-5">
+    <h1>Github Repo</h1>
+    <p>Add your github repository url here</p>
+    <form>
+        <div class="field-box m-auto py-2">
+            <input type="text" id="username" placeholder="" autocomplete="off"/>
+            <label>Username</label>
+        </div>
+        <input class="btn btn-small submit-btn my-3" type="submit" value="SUBMIT"></input>
+    </form>
+</div>
 {% endblock %}

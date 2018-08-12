@@ -1,78 +1,38 @@
 body {
 	background-color: #EEEEEE;
+	color: #393e46;
+	font-family: 'Raleway', sans-serif;
+	text-transform: uppercase;
 }
 
 p {
 	font-size: 18px;
 }
 
-.container {
-	border-left: 10px solid #222831;
-	background-color: white;
-	text-align: center;
-}
-
-form .field-box {
-	background-color: #eeeeee;
-	border: none;
+.header {
+	line-height: 20px;
+	margin: 5% auto;
 	position: relative;
-	width: 80%;
 }
 
-form #github_url {
-	background-color: #eeeeee;
-	border: none;
-	height: 100%;
-	padding-left: 25%;
-	width: 100%;
-}
-
-form label {
-	background-color: #222831;
-	height: 100%;
-	left: 0;
+.header i {
+	animation: float 1.4s ease-in-out infinite;
 	position: absolute;
+	left: 50%;
 	top: 0;
-	width: 100%;
-
-	-webkit-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -moz-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -o-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+	transform: translate(50%, 0);
 }
 
-form .field-box:hover label {
-	background-color: #00adb5;
-	width: 20%;
-
-	-webkit-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -moz-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    -o-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
-    transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+@keyframes float {
+	0%, 100% {
+		transform: translate(-50%, -5px);
+	}
+	50% {
+		transform: translate(-50%, 0);
+	}
 }
 
-input {
-	outline: none;
+.header h2 {
+	padding: 70px 0 50px;
 }
 
-
-
-.nav {
-	bottom: 0pt;
-	left: 1%;
-}
-
-.nav ul {
-}
-
-.nav li {
-	display: inline;
-	float: right;
-	list-style: none;
-}
-
-.nav a {
-	display: block;
-	font-size: 6em;
-	text-transform: uppercase;
-}
