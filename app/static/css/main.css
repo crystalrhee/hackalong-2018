@@ -1,5 +1,8 @@
 body {
 	background-color: #EEEEEE;
+	color: #393e46;
+	font-family: 'Raleway', sans-serif;
+	text-transform: uppercase;
 }
 
 p {
@@ -29,10 +32,13 @@ form #github_url {
 
 form label {
 	background-color: #222831;
+	color: white;
 	height: 100%;
 	left: 0;
+	line-height: 40px;
 	position: absolute;
 	top: 0;
+	vertical-align: middle;
 	width: 100%;
 
 	-webkit-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
@@ -41,7 +47,7 @@ form label {
     transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
 }
 
-form .field-box:hover label {
+form .field-box:hover label, form .focus label {
 	background-color: #00adb5;
 	width: 20%;
 
@@ -51,11 +57,21 @@ form .field-box:hover label {
     transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
 }
 
-input {
+input, .btn {
 	outline: none;
 }
 
+input:focus, .btn:focus {
+	outline: none;
+	box-shadow: none;
+}
 
+.submit-btn {
+	background-color: #00adb5;
+	border-radius: 0;
+	color: white;
+	outline: none;
+}
 
 .nav {
 	bottom: 0pt;
