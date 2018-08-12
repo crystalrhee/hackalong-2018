@@ -9,6 +9,11 @@ p {
 	font-size: 18px;
 }
 
+.hidden {
+	display: none;
+	opacity: 0;
+}
+
 .header {
 	line-height: 20px;
 	margin: 5% auto;
@@ -16,11 +21,11 @@ p {
 }
 
 .header i {
-	animation: float 1.4s ease-in-out infinite;
 	position: absolute;
 	left: 50%;
 	top: 0;
 	transform: translate(50%, 0);
+	animation: float 1.4s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -36,3 +41,16 @@ p {
 	padding: 70px 0 50px;
 }
 
+.btn-main {
+	background-color: #00adb5;
+	border-radius: 0;
+	color: white;
+	outline: none;
+}
+
+.btm-main:hover {
+	background-color: #222831;
+	border-radius: 0;
+	color: #00adb5;
+	outline: none;
+}

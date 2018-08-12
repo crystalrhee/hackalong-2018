@@ -9,6 +9,7 @@ def textToDict(text):
     vector = {}
     for word in text.translate(string.punctuation) \
                     .replace('\n', '') \
+                    .lower() \
                     .split(' '):
         vector[word] = vector[word] + 1 if word in vector else 1
     return vector

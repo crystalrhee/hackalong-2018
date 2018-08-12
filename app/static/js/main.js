@@ -1,12 +1,12 @@
 function checkStatus() {
-	$('#username').on('click', function() {
+	$('#project').on('click', function() {
 		$('.field-box').addClass('focus'); 
 	});
-	$('#username').focusin(function() {
+	$('#project').focusin(function() {
 		$('.field-box').addClass('focus'); 
 	});
 	$(document).on('click', function(e) {
-		if ($(e.target).is('#username') === false) {
+		if ($(e.target).is('#project') === false) {
 			$('.field-box').removeClass('focus'); 
 			checkForInput();
 		}
@@ -14,7 +14,7 @@ function checkStatus() {
 }
 
 function checkForInput() {
-	if ($('#username').val().length > 0) {
+	if ($('#project').val().length > 0) {
 		$('.field-box').addClass('focus');
 	} else {
 		$('.field-box').removeClass('focus');
@@ -25,6 +25,11 @@ $(document).ready(function() {
 	checkStatus();
 });
 
-$('#username').on('change keyup', function() {
+$('#project').on('change keyup', function() {
 	checkStatus();
+});
+
+$('.submit-btn').click(function(){
+	$('form').addClass('hidden');
+	$('.loading-container').removeClass('hidden');
 });
