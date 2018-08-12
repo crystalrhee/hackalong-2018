@@ -7,7 +7,7 @@ import json
 import csv
 
 OUTFILE = 'repo-contents.csv'
-TOKEN = '299d94a0a087a3c19f73dbe229e64aa6458c67f9'
+TOKEN = '895dd4a7086949274defb7ad2e7d676bf4b16f29'
 
 def getReadmeFromUrl(repo_url):
     print('working on', repo_url)
