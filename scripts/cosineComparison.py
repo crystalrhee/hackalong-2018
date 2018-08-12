@@ -15,7 +15,13 @@ with open("out.csv", newline='') as csvfile:
 		for word in words:
 			importance[word] = np.divide(1, np.divide(textDict[word], len(words))) #1/freqency -> importance. Divided by length of words to normalize.
 		sortedDict = sorted(importance.items()) #defined outside of list comp to only have it sorted once
-		return [sortedDict[-i][0] for i in range(20)] #return list of 20 most important words
+		importantWords = []
+		for i in range(20): #return list of 20 most important words
+			try:
+				importantWords.append(sortedDict[-i][0])
+			except IndexError:
+				return importantWords
+		return importantWords
 
 	for row in scrapedData:
 		frontEndVector = []
