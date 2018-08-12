@@ -32,7 +32,7 @@ with open("out.csv", newline='') as csvfile:
 		gitURL = row[0]
 		tagLineDict = json.loads(row[1])
 		words = tfidf(unusedWordRemoval(tagLineDict))
-		scrapedVector = [i for i in list(tagLineDict.values()) if tagLineDict[i] in words]
+		scrapedVector = [tagLineDict[i] for i in words]
 		for word in words:
 			try:
 				frontEndVector.append(testFrontEndInput[word])
