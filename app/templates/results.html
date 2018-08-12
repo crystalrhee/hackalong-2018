@@ -15,7 +15,7 @@
 				<h5 class="card-title">{{repo.name}}</h5>
 				<p class="card-text repo-description">{{repo.description}}</p>
 				<p class="card-text"><small class="text-muted">{{repo.last_updated}} days ago</small></p>
-				<a href="#" class="btn btn-main">See Project</a>
+				<a href="{{ repo.link }}" target="_blank" class="btn btn-main">See Project</a>
 			</div>
 		</div>
 		{% endfor %}

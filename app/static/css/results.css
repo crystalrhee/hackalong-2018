@@ -1,4 +1,8 @@
 .repo-description {
-	height: 150px;
+	height: 300px;
     overflow-y: auto;
+}
+
+.card-columns {
+	overflow-y: scroll;
 }
