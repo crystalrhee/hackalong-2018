@@ -56,20 +56,6 @@ input:focus, .btn:focus {
 	box-shadow: none;
 }
 
-.submit-btn {
-	background-color: #00adb5;
-	border-radius: 0;
-	color: white;
-	outline: none;
-}
-
-.submit-btn:hover {
-	background-color: #222831;
-	border-radius: 0;
-	color: #00adb5;
-	outline: none;
-}
-
 .loading-container {
 	margin: 30px 0;
 	text-align: center;
@@ -81,7 +67,7 @@ input:focus, .btn:focus {
     height: 6px;
     margin: auto;
     width: 50px;
-	animation: pingpong 2s cubic-bezier(.17,.67,.83,.67) infinite;
+	animation: pingpong 2s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 }
 
 @keyframes pingpong {

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="bg-transparent border-0 text-center header">
+	<h2>Similar repositories</h2>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+	<div class="card-columns">
+		{% for repo in repos %}
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">{{repo.name}}</h5>
+				<p class="card-text repo-description">{{repo.description}}</p>
+				<p class="card-text"><small class="text-muted">{{repo.last_updated}} days ago</small></p>
+				<a href="#" class="btn btn-main">See Project</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
