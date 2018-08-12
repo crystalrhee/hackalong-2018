@@ -1,6 +1,7 @@
 .container {
 	border-left: 10px solid #222831;
 	background-color: white;
+	min-height: 305px;
 	text-align: center;
 }
 
@@ -11,7 +12,7 @@ form .field-box {
 	width: 80%;
 }
 
-form #username {
+form #project {
 	background-color: #eeeeee;
 	border: none;
 	height: 100%;
@@ -67,4 +68,29 @@ input:focus, .btn:focus {
 	border-radius: 0;
 	color: #00adb5;
 	outline: none;
+}
+
+.loading-container {
+	margin: 30px 0;
+	text-align: center;
+}
+
+.load {
+	background-color: #222831;
+	border-radius: 5px;
+    height: 6px;
+    margin: auto;
+    width: 50px;
+	animation: pingpong 2s cubic-bezier(.17,.67,.83,.67) infinite;
+}
+
+@keyframes pingpong {
+	0%,100% {
+		transform: translate(-80px,0);
+	}
+	50% {
+		background-color: #00adb5;
+		transform: translate(80px,0);
+		width: 100px;
+	}
 }

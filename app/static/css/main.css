@@ -9,6 +9,11 @@ p {
 	font-size: 18px;
 }
 
+.hidden {
+	display: none;
+	opacity: 0;
+}
+
 .header {
 	line-height: 20px;
 	margin: 5% auto;
@@ -16,11 +21,11 @@ p {
 }
 
 .header i {
-	animation: float 1.4s ease-in-out infinite;
 	position: absolute;
 	left: 50%;
 	top: 0;
 	transform: translate(50%, 0);
+	animation: float 1.4s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -35,4 +40,3 @@ p {
 .header h2 {
 	padding: 70px 0 50px;
 }
-

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block header %}
-<div class="bg-transparent border-0 container header">
+<div class="bg-transparent border-0 text-center header">
     <i class="fas fa-street-view fa-2x"></i>
     <h2>Hello!</h2>
 </div>
@@ -10,13 +10,17 @@
 {% block content %}
 <div class="container py-5">
     <h1>Github Repo</h1>
-    <p>Add your github repository url here</p>
+    <p>Add your github project repository url here</p>
     <form>
         <div class="field-box m-auto py-2">
-            <input type="text" id="username" placeholder="" autocomplete="off"/>
-            <label>Username</label>
+            <input type="text" id="project" placeholder="" autocomplete="off"/>
+            <label>Project</label>
         </div>
-        <input class="btn btn-small submit-btn my-3" type="submit" value="SUBMIT"></input>
+        <input class="btn btn-small submit-btn my-3" value="SUBMIT"></input>
     </form>
+    <div class="loading-container hidden">
+        <p>loading...</p>
+        <div class="load"></div>
+    </div>
 </div>
 {% endblock %}
