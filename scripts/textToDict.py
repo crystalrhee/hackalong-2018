@@ -2,7 +2,7 @@ import json
 import string
 import csv
 
-INPUT_FILE = 'test-dataset.csv'
+INPUT_FILE = 'repo-contents.csv'
 OUT_FILE = "out.csv"
 
 def textToDict(text):
