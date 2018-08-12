@@ -9,6 +9,10 @@ p {
 	font-size: 18px;
 }
 
+.header {
+	display: none;
+}
+
 .container {
 	border-left: 10px solid #222831;
 	background-color: white;
@@ -78,24 +82,4 @@ input:focus, .btn:focus {
 	border-radius: 0;
 	color: #00adb5;
 	outline: none;
-}
-
-.nav {
-	bottom: 0pt;
-	left: 1%;
-}
-
-.nav ul {
-}
-
-.nav li {
-	display: inline;
-	float: right;
-	list-style: none;
-}
-
-.nav a {
-	display: block;
-	font-size: 6em;
-	text-transform: uppercase;
 }

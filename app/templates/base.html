@@ -1,25 +1,20 @@
-{% extends 'bootstrap/base.html' %}
+<!DOCTYPE html>
+<html>
 
-{% block title %}   
-    {{ title }}
-{% endblock %}
-
-{% block styles %}
-	{{ super() }}
+<head>
+	{% block title %}{{ title }}{% endblock %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<link rel= "stylesheet" type= "text/css" href= "../static/css/main.css">
 	<link rel="shortcut icon" type="image/png" href="../static/img/favicon.png"/>
-{% endblock %}
+</head>
 
-{% block navbar %}{% endblock %}
-
-{% block header %}{% endblock %}
-
-{% block content %}{% endblock %}
-
-{% block scripts %}
-	{{ super() }}
-	<script src="../static/js/main.js"></script>
-	}
-{% endblock %}
+<body>
+	{% block header %}{% endblock %}
+	{% block content %}{% endblock %}
+	<scripts>
+		<script src="../static/js/main.js"></script>
+	</scripts>
+</body>
+</html>
