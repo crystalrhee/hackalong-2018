@@ -2,10 +2,7 @@
 import json
 import string
 import csv
-import repoFetcher
-
-INPUT_FILE = 'readmes.csv'
-OUT_FILE = "scores.csv"
+from config import textToDict as config
 
 def textToDict(text):
     vector = {}
@@ -17,8 +14,8 @@ def textToDict(text):
     return vector
 
 if __name__ == '__main__':
-    with open(INPUT_FILE, 'r') as f:
-        with open(OUT_FILE, 'w') as outfile:
+    with open(config['input'], 'r') as f:
+        with open(config['output'], 'w') as outfile:
             reader = csv.reader(f, quotechar='"')
             writer = csv.writer(outfile)
             for row in reader:
