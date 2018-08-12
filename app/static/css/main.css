@@ -1,0 +1,78 @@
+body {
+	background-color: #EEEEEE;
+}
+
+p {
+	font-size: 18px;
+}
+
+.container {
+	border-left: 10px solid #222831;
+	background-color: white;
+	text-align: center;
+}
+
+form .field-box {
+	background-color: #eeeeee;
+	border: none;
+	position: relative;
+	width: 80%;
+}
+
+form #github_url {
+	background-color: #eeeeee;
+	border: none;
+	height: 100%;
+	padding-left: 25%;
+	width: 100%;
+}
+
+form label {
+	background-color: #222831;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+
+	-webkit-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+    -moz-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+    -o-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+    transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+}
+
+form .field-box:hover label {
+	background-color: #00adb5;
+	width: 20%;
+
+	-webkit-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+    -moz-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+    -o-transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+    transition: background-color 500ms ease-in-out, width 500ms ease-in-out;
+}
+
+input {
+	outline: none;
+}
+
+
+
+.nav {
+	bottom: 0pt;
+	left: 1%;
+}
+
+.nav ul {
+}
+
+.nav li {
+	display: inline;
+	float: right;
+	list-style: none;
+}
+
+.nav a {
+	display: block;
+	font-size: 6em;
+	text-transform: uppercase;
+}
