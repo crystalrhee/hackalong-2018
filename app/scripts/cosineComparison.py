@@ -8,11 +8,10 @@ with open("out.csv", newline='') as csvfile:
 	testFrontEndInput = {"this":2, "is":1, "a":0, "lit":20, "test":5, "tagline":8, "dish":420, "wash":0, "famalam":40}
 	similarities = {}
 
-	def unusedWordRemoval(text):
-		inputWordSet = {i for i in list(testFrontEndInput.values())}
-		scrapedWordSet = {i for i in text}
-		return scrapedWordSet.intersection(inputWordSet)
-
+	def unusedWordRemoval(textDict):
+		inputWordSet = {i for i in testFrontEndInput}
+		scrapedWordSet = {i for i in textDict}
+		return {i:textDict[i] for i in scrapedWordSet.intersection(inputWordSet)}
 
 	def tfidf(textDict):
 		words = list(textDict.keys())
@@ -32,9 +31,9 @@ with open("out.csv", newline='') as csvfile:
 		frontEndVector = []
 		gitURL = row[0]
 		tagLineDict = json.loads(row[1])
-		scrapedVector = list(tagLineDict.values())
-		words = unusedWordRemoval(tfidf(tagLineDict))
-		for word in words: #need only dict keys, need to convert the returned value froms .keys() from a dict object to a list
+		words = tfidf(unusedWordRemoval(tagLineDict))
+		scrapedVector = [tagLineDict[i] for i in words]
+		for word in words:
 			try:
 				frontEndVector.append(testFrontEndInput[word])
 			except KeyError:
