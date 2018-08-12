@@ -2,17 +2,15 @@
 from urllib.parse import urlparse
 from urllib import request
 from urllib.error import HTTPError
+from multiprocessing.dummy import Pool
 import json
 import csv
-import _thread
-import time
-from multiprocessing.dummy import Pool
 
 OUTFILE = 'repo-contents.csv'
-TOKEN = '0a2f18668a6b1e5fdfc808ed2df86563f875fb10'
+TOKEN = '7a7129d335966341f0f720bf1198a17df1f567ed'
 
 def getReadmeFromUrl(repo_url):
-    print('working on', repo_url)
+    print(repo_url)
     obj = urlparse(repo_url)
     names = ['README', 'readme']
     extensions = ['', '.txt', '.md']
@@ -35,8 +33,8 @@ def runMultiple(repo_urls, outfile, threads=2):
     pool.join()
 
 prev_id = 1
-count = 1
 writer = None
+count = 1
 with open(OUTFILE, 'w') as outfile:
     writer = csv.writer(outfile)
     for _ in range(1):
@@ -45,11 +43,9 @@ with open(OUTFILE, 'w') as outfile:
             page = response.read()
             arr = []
             for o in json.loads(page):
-                arr.append(o['html_url'])
+                html = o['html_url']
+                arr.append(html)
                 prev_id = o['id']
                 count += 1
+            print('====== downloading', count, '======')
             runMultiple(arr, outfile, 8)
-
-
-
-
