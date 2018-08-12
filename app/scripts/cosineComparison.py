@@ -4,7 +4,7 @@ import csv
 import json
 from textToDict import textToDict
 from repoFetcher import getReadmeFromUrl
-from config import cosineComparison as config
+from config import CosineComparison as config
 
 def main(input_url = None, top_x = 5):
 	input_readme = {"this":2, "is":1, "a":0, "lit":20, "test":5, "tagline":8, "dish":420, "wash":0, "famalam":40}

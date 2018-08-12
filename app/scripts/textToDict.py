@@ -2,7 +2,7 @@
 import json
 import string
 import csv
-from config import textToDict as config
+from config import TextToDict as config
 
 def textToDict(text):
     vector = {}

@@ -2,7 +2,7 @@
 from urllib import request
 from multiprocessing.dummy import Pool
 from githubWrapper import getReadmeFromUrl
-from config import repoFetcher as config
+from config import RepoFetcher as config
 import json
 import csv
 
