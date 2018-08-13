@@ -22,7 +22,7 @@ def runMultiple(repo_urls, outfile, threads=2):
 
 if __name__ == '__main__':
     with open(config['output'], 'a') as outfile:
-        with open(config['state'], 'w+') as state:
+        with open(config['state'], 'r') as state:
             s = state.read()
             if s:
                 prev_id = int(s)
@@ -38,9 +38,13 @@ if __name__ == '__main__':
                         html = o['html_url']
                         arr.append(html)
                         prev_id = o['id']
-                    runMultiple(arr, outfile, 8)
-                    with open(config['state'], 'w') as state:
-                        state.write(str(prev_id))
+                    try:
+                        runMultiple(arr, outfile, 12)
+                        with open(config['state'], 'w') as state:
+                            state.write(str(prev_id))
+                    except Exception as e:
+                        print(e)
+                        pass
             except Exception as e:
                 print(e)
                 pass
