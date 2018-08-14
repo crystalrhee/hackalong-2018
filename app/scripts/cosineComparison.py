@@ -9,22 +9,20 @@ with open("out.csv", newline='') as csvfile:
 	similarities = {}
 
 	def unusedWordRemoval(textDict):
-		inputWordSet = {i for i in testFrontEndInput}
-		scrapedWordSet = {i for i in textDict}
-		return {i:textDict[i] for i in scrapedWordSet.intersection(inputWordSet)}
+		return {i:textDict[i] for i in {j for j in textDict}.intersection({k for k in testFrontEndInput})}
 
 	def tfidf(textDict):
 		words = list(textDict.keys())
 		importance = {}
 		for word in words:
-			importance[word] = np.divide(1, np.divide(textDict[word], len(words))) #1/freqency -> importance. Divided by length of words to normalize.
-		sortedDict = sorted(importance.items()) #defined outside of list comp to only have it sorted once
+			importance[word] = np.divide(1, textDict[word]) #1/freqency -> importance
+		sortedDict = sorted(importance.values()) #defined outside of loop to only have it sorted once
 		importantWords = []
 		for i in range(20): #return list of 20 most important words
 			try:
-				importantWords.append(sortedDict[-i][0])
+				importantWords.append(sortedDict[-i])
 			except IndexError:
-				return importantWords
+				return importantWords #if less than 20 words, return existing list
 		return importantWords
 
 	for row in scrapedData:
@@ -45,5 +43,5 @@ with open("out.csv", newline='') as csvfile:
 		else:
 			similarities[gitURL] = -1
 
-print("Most similar github repo:", sorted(similarities.items())[-1][0])
+print("Most similar github repo:", sorted(similarities.values())[-1])
 
