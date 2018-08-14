@@ -21,6 +21,7 @@ if __name__ == '__main__':
             for row in reader:
                 try:
                     url, text = row
+                    text = json.loads(text)
                 except Exception as e:
                     print('bad csv format')
                     raise e
