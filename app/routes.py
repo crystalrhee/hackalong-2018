@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect
 from app import app
-from scripts import gj
+from app.scripts.get_json import get_repos
 
 @app.route('/')
 def indes():
@@ -14,5 +14,5 @@ def index_post():
 
 @app.route('/results')
 def hello_world():
-	repos = gj.get_repos()
+	repos = get_repos()
 	return render_template("results.html", repos=(repos))

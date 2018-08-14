@@ -1,9 +1,8 @@
+#!/usr/local/bin/python3
 import json
 import string
 import csv
-
-INPUT_FILE = 'repo-contents.csv'
-OUT_FILE = "out.csv"
+from config import TextToDict as config
 
 def textToDict(text):
     vector = {}
@@ -14,15 +13,16 @@ def textToDict(text):
         vector[word] = vector[word] + 1 if word in vector else 1
     return vector
 
-
-with open(INPUT_FILE, 'r') as f:
-    with open(OUT_FILE, 'w') as outfile:
-        reader = csv.reader(f, quotechar='"')
-        writer = csv.writer(outfile)
-        for row in reader:
-            try:
-                url, text = row
-            except Exception as e:
-                print('bad csv format')
-                raise e
-            writer.writerow([url, json.dumps(textToDict(text))])
+if __name__ == '__main__':
+    with open(config['input'], 'r') as f:
+        with open(config['output'], 'w') as outfile:
+            reader = csv.reader(f, quotechar='"')
+            writer = csv.writer(outfile)
+            for row in reader:
+                try:
+                    url, text = row
+                    text = json.loads(text)
+                except Exception as e:
+                    print('bad csv format')
+                    raise e
+                writer.writerow([url, json.dumps(textToDict(text))])

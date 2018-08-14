@@ -1,62 +1,80 @@
 #!/usr/local/bin/python3
-from urllib.parse import urlparse
 from urllib import request
-from urllib.error import HTTPError
 from multiprocessing.dummy import Pool
+from githubWrapper import getReadmeFromUrl
+from config import RepoFetcher as config
 import json
 import csv
-
-OUTFILE = 'repo-contents.csv'
-TOKEN = '658f5a0c4bf808a8cfc889b681eba909468bacd1'
-STATE = 'state'
-
-def getReadmeFromUrl(repo_url):
-    print(repo_url)
-    obj = urlparse(repo_url)
-    names = ['README', 'readme']
-    extensions = ['', '.txt', '.md']
-    for name in names:
-        for extension in extensions:
-            readme_url = 'https://raw.githubusercontent.com{path}/master/{name}{ext}'.format(path=obj.path,
-            name=name,
-            ext=extension)
-            try:
-                readme = request.urlopen(readme_url).read().decode('utf-8')
-                writer.writerow([repo_url, json.dumps(readme)])
-            except HTTPError:
-                pass
-
-def runMultiple(repo_urls, outfile, threads=2):
-    pool = Pool(threads)
-    pool.map(getReadmeFromUrl, repo_urls)
-    outfile.flush()
-    pool.close()
-    pool.join()
 
 prev_id = 1
 writer = None
 
-with open(OUTFILE, 'a') as outfile:
-    with open(STATE, 'r') as state:
-        s = state.read()
-        if s:
-            prev_id = int(s)
-    writer = csv.writer(outfile)
-    while True:
-        try:
-            url = 'https://api.github.com/repositories?access_token={}&since={}'.format(TOKEN, prev_id)
-            with request.urlopen(url) as response:
-                print('====== downloading', prev_id, '======')
-                page = response.read().decode('utf-8')
-                arr = []
-                for o in json.loads(page):
-                    html = o['html_url']
-                    arr.append(html)
-                    prev_id = o['id']
-                runMultiple(arr, outfile, 8)
-                with open(STATE, 'w') as state:
-                    state.write(str(prev_id))
-        except Exception as e:
-            print(e)
-            pass
+def writeReadmeToCsvFromUrl(repo_url):
+    '''Grabs the readme string data and write to file.
+    Agrs:
+        repo_url: url of the repo
+    '''
+    print(repo_url)
+    writer.writerow([repo_url, json.dumps(getReadmeFromUrl(repo_url))])
 
+def runMultiple(repo_urls, outfile, threads=2):
+    '''Start the thread pool to download/write readmes.
+    Args:
+        repo_urls: list of repo urls
+        outfile: reference to a file object
+        threads: number of threads to use
+    '''
+    pool = Pool(threads)
+    pool.map(writeReadmeToCsvFromUrl, repo_urls)
+    outfile.flush()
+    pool.close()
+    pool.join()
+
+if __name__ == '__main__':
+    with open(config['output'], 'a') as outfile:
+        writer = csv.writer(outfile)
+        # state keeps track of the current/previous repo ID (begins from 1)
+        try:
+            # found the previous state/id, use that
+            state = open(config['state'], 'r')
+            s = state.read()
+            prev_id = int(s) if s else 1
+        except:
+            # file doesn't exist or bad state content, create a new state
+            state = open(config['state'], 'w')
+            prev_id = 1
+        try:
+            failure_count = 0
+            # Each iteration will fetch about 364 readmes because each api request returns that much (by defaut)
+            while True:
+                try:
+                    # using an access token allows to make 5000 requests per hour (2018/08/14)
+                    url = 'https://api.github.com/repositories?access_token={}&since={}'.format(config['token'], prev_id)
+                    with request.urlopen(url) as response:
+                        print('====== downloading', prev_id, '======')
+                        page = response.read().decode('utf-8')
+                        repo_links = []
+                        for o in json.loads(page):
+                            html = o['html_url']
+                            repo_links.append(html)
+                            prev_id = o['id']
+                        try:
+                            runMultiple(repo_links, outfile, 12)
+                            # stores the state every ~364 repos being downloaded
+                            # Note: this implementation will not re-download each failed download or check for duplicates,
+                            #       it will simply resume at the previous N * 364'th ID and potentially have duplicates in the output
+                            with open(config['state'], 'w') as state:
+                                state.write(str(prev_id))
+                        except Exception as e:
+                            print('abc')
+                            print(e)
+                            pass
+                except Exception as e:
+                    failure_count += 1
+                    print(e)
+                    if failure_count >= 20:
+                        print('Too many failures, gonna give up now, kthxbai')
+                        exit()
+                    pass
+        finally:
+            state.close()
