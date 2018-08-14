@@ -15,27 +15,34 @@ def main(input_url = None, top_x = 5):
 		similarities = {}
 
 		def unusedWordRemoval(textDict):
-			return {i:textDict[i] for i in {j for j in textDict}.intersection({k for k in input_readme})}
+			intersection = {i:textDict[i] for i in {j for j in textDict}.intersection({k for k in input_readme})}
+			if len(intersection) == 0:
+				return 0
+			else:
+				return intersection
 
 		def tfidf(textDict):
-			words = list(textDict.keys())
-			importance = {}
-			for word in words:
-				importance[word] = np.divide(1, textDict[word]) #1/freqency -> importance
-			sortedDict = sorted(importance.keys()) #defined outside of loop to only have it sorted once
-			importantWords = []
-			for i in range(20): #return list of 20 most important words
-				try:
-					importantWords.append(sortedDict[-i])
-				except IndexError:
-					return importantWords #if less than 20 words, return existing list
-			return importantWords
+			if textDict == 0:
+				return 0
+			else: 
+				words = list(textDict.keys())
+				importance = {}
+				for word in words:
+					importance[word] = np.divide(1, textDict[word]) #1/freqency -> importance
+				sortedDict = sorted(importance.keys()) #defined outside of loop to only have it sorted once
+				importantWords = []
+				for i in range(20): #return list of 20 most important words
+					try:
+						importantWords.append(sortedDict[-i])
+					except IndexError:
+						return importantWords #if less than 20 words, return existing list
+				return importantWords
 
 		for row in scrapedData:
 			gitURL = row[0]
 			tagLineDict = json.loads(row[1])
 			words = tfidf(unusedWordRemoval(tagLineDict))
-			if len(words) != 0:
+			if words != 0:
 				scrapedVector = [tagLineDict[i] for i in words]
 				frontEndVector = [input_readme[word] for word in words]
 				#theta = cos^-1(a.b/|a||b|)
