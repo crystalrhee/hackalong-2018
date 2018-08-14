@@ -15,14 +15,14 @@ def main(input_url = None, top_x = 5):
 		similarities = {}
 
 		def unusedWordRemoval(textDict):
-			return {i:textDict[i] for i in {j for j in textDict}.intersection({k for k in testFrontEndInput})}
+			return {i:textDict[i] for i in {j for j in textDict}.intersection({k for k in input_readme})}
 
 		def tfidf(textDict):
 			words = list(textDict.keys())
 			importance = {}
 			for word in words:
 				importance[word] = np.divide(1, textDict[word]) #1/freqency -> importance
-			sortedDict = sorted(importance.values()) #defined outside of loop to only have it sorted once
+			sortedDict = sorted(importance.keys()) #defined outside of loop to only have it sorted once
 			importantWords = []
 			for i in range(20): #return list of 20 most important words
 				try:
@@ -32,24 +32,20 @@ def main(input_url = None, top_x = 5):
 			return importantWords
 
 		for row in scrapedData:
-			frontEndVector = []
 			gitURL = row[0]
 			tagLineDict = json.loads(row[1])
 			words = tfidf(unusedWordRemoval(tagLineDict))
-			scrapedVector = [tagLineDict[i] for i in words]
-			for word in words:
-				try:
-					frontEndVector.append(testFrontEndInput[word])
-				except KeyError:
-					frontEndVector.append(0) #this means only keys that are in the current scraped dictionary will be added to the inputted one. If they were added, they would be 0 (as they're only in one of the dicts) and so this saves computation time
-			if np.sum(frontEndVector) != 0 and len(words) != 0:
-				#carrying out all mathematical functions in numpy to utalize that sweet C speed
-				theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector)))) #theta = cos^-1(a.b/|a||b|)
+			if len(words) != 0:
+				scrapedVector = [tagLineDict[i] for i in words]
+				frontEndVector = [input_readme[word] for word in words]
+				#theta = cos^-1(a.b/|a||b|)
+				theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector))))
 				similarities[gitURL] = theta
 			else:
 				similarities[gitURL] = -1
-		scores = sorted(similarities.items())[-top_x:]
-		repos = list(map(lambda x: x[0], scores))
+
+		scores = sorted(similarities.keys())[-top_x:] #FIX - honestly not sure how this works, please make sure this and the following line work the same now that scores is a list with one dimentions, not two.
+		repos = list(map(lambda x: x, scores))
 		return repos
 
 if __name__ == '__main__':
