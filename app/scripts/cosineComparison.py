@@ -8,7 +8,13 @@ from config import CosineComparison as config
 def main(input_url = None, top_x = 5):
 	input_readme = {"this":2, "is":1, "a":0, "lit":20, "test":5, "tagline":8, "dish":420, "wash":0, "famalam":40}
 	if input_url:
-		input_readme = textToDict(getReadmeFromUrl(input_url))
+		readme = getReadmeFromUrl(input_url)
+		if readme:
+			input_readme = textToDict(readme)
+		else:
+			print('unable to find input repo\'s readme')
+			exit()
+
 
 	with open(config['input'], newline='') as csvfile:
 		scrapedData = csv.reader(csvfile)
