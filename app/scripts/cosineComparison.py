@@ -41,7 +41,7 @@ def main(input_url = None, top_x = 5, debug = False):
 				importantWords = []
 				for i in range(20): #return list of 20 most important words
 					try:
-						importantWords.append(sortedDict[-i])
+						importantWords.append(sortedDict[-i - 1])
 					except IndexError:
 						return importantWords #if less than 20 words, return existing list
 				return importantWords
