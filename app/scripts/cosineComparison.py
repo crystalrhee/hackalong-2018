@@ -58,7 +58,7 @@ def main(input_url = None, top_x = 5, debug = False):
 			else:
 				similarities[gitURL] = -1
 
-		top_repos = sorted(similarities, key=lambda key: abs(similarities[key]))[:top_x]
+		top_repos = reversed(sorted(similarities, key=similarities.get)[-top_x:])
 
 		if debug:
 			for repo in top_repos:
