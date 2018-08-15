@@ -35,7 +35,7 @@ def main(input_url = None, top_x = 5, debug = False):
 				words = list(textDict.keys())
 				importance = {}
 				for word in words:
-					importance[word] = np.divide(1, textDict[word]) #1/freqency -> importance
+					importance[word] = np.divide(1, np.divide(textDict[word], len(input_readme))) #1/freqency -> importance. divided by lenth of input dict to normalize
 				sortedDict = sorted(importance, key=importance.get) #defined outside of loop to only have it sorted once
 				importantWords = []
 				for i in range(20): #return list of 20 most important words
