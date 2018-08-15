@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 import numpy as np 
 import csv
 import json
@@ -5,13 +6,20 @@ from textToDict import textToDict
 from repoFetcher import getReadmeFromUrl
 from config import CosineComparison as config
 
-def main(input_url = None, top_x = 5):
+def main(input_url = None, top_x = 5, debug = False):
 	input_readme = {"this":2, "is":1, "a":0, "lit":20, "test":5, "tagline":8, "dish":420, "wash":0, "famalam":40}
 	if input_url:
-		input_readme = textToDict(getReadmeFromUrl(input_url))
+		readme = getReadmeFromUrl(input_url)
+		if readme:
+			input_readme = textToDict(readme)
+		else:
+			print('unable to find input repo\'s readme')
+			exit()
+
 
 	with open(config['input'], newline='') as csvfile:
 		scrapedData = csv.reader(csvfile)
+		# key = repo url, value = similarity score (range from [-1, 1], 0 being the same)
 		similarities = {}
 
 		def unusedWordRemoval(textDict):
@@ -51,11 +59,13 @@ def main(input_url = None, top_x = 5):
 			else:
 				similarities[gitURL] = -1
 
-		scores = sorted(similarities, key=similarities.get)[-top_x:] #FIX - honestly not sure how your edits work, please make sure this and the following line work the same now that scores is a list with one dimentions, not two.
-		repos = list(map(lambda x: x, scores))
-		return repos
+		top_repos = sorted(similarities, key=lambda key: abs(similarities[key]))[:top_x]
+
+		if debug:
+			for repo in top_repos:
+				print(similarities[repo], repo)
+
+		return top_repos
 
 if __name__ == '__main__':
-	urls = main('https://github.com/jnewland/lazy_record', 1)
-	for url in urls: 
-		print (url
+	urls = main('https://github.com/technoweenie/duplikate', 10, debug=True)
