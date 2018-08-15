@@ -15,7 +15,9 @@ def writeReadmeToCsvFromUrl(repo_url):
         repo_url: url of the repo
     '''
     print(repo_url)
-    writer.writerow([repo_url, json.dumps(getReadmeFromUrl(repo_url))])
+    readme = getReadmeFromUrl(repo_url)
+    if readme:
+        writer.writerow([repo_url, json.dumps(readme)])
 
 def runMultiple(repo_urls, outfile, threads=2):
     '''Start the thread pool to download/write readmes.
