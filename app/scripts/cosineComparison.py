@@ -58,4 +58,4 @@ def main(input_url = None, top_x = 5):
 if __name__ == '__main__':
 	urls = main('https://github.com/jnewland/lazy_record', 1)
 	for url in urls: 
-		print (url)
+		print (url
