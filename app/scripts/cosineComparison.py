@@ -68,4 +68,4 @@ def main(input_url = None, top_x = 5, debug = False):
 		return top_repos
 
 if __name__ == '__main__':
-	urls = main('https://github.com/technoweenie/duplikate', 10, debug=True)
+	urls = main('https://github.com/technoweenie/duplikate', 20, debug=True)
