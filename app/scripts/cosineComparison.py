@@ -29,7 +29,7 @@ def main(input_url = None, top_x = 5):
 				importance = {}
 				for word in words:
 					importance[word] = np.divide(1, textDict[word]) #1/freqency -> importance
-				sortedDict = sorted(importance.keys()) #defined outside of loop to only have it sorted once
+				sortedDict = sorted(importance, key=importance.get) #defined outside of loop to only have it sorted once
 				importantWords = []
 				for i in range(20): #return list of 20 most important words
 					try:
@@ -51,7 +51,7 @@ def main(input_url = None, top_x = 5):
 			else:
 				similarities[gitURL] = -1
 
-		scores = sorted(similarities.keys())[-top_x:] #FIX - honestly not sure how this works, please make sure this and the following line work the same now that scores is a list with one dimentions, not two.
+		scores = sorted(similarities, key=similarities.get)[-top_x:] #FIX - honestly not sure how your edits work, please make sure this and the following line work the same now that scores is a list with one dimentions, not two.
 		repos = list(map(lambda x: x, scores))
 		return repos
 
