@@ -54,8 +54,8 @@ def main(input_url = None, top_x = 5, debug = False):
 				scrapedVector = [tagLineDict[i] for i in words]
 				frontEndVector = [input_readme[word] for word in words]
 				#theta = cos^-1(a.b/|a||b|)
-				theta = np.arccos(np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector))))
-				similarities[gitURL] = theta
+				cosValue = np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector)))
+				similarities[gitURL] = cosValue
 			else:
 				similarities[gitURL] = -1
 
