@@ -19,7 +19,7 @@ def main(input_url = None, top_x = 5, debug = False):
 
 	with open(config['input'], newline='') as csvfile:
 		scrapedData = csv.reader(csvfile)
-		# key = repo url, value = similarity score (range from [-1, 1], 0 being the same)
+		# key = repo url, value = similarity score (range from [-1, 1], 1 being the same)
 		similarities = {}
 
 		def unusedWordRemoval(textDict):
@@ -41,7 +41,7 @@ def main(input_url = None, top_x = 5, debug = False):
 				importantWords = []
 				for i in range(20): #return list of 20 most important words
 					try:
-						importantWords.append(sortedDict[-i])
+						importantWords.append(sortedDict[-i - 1])
 					except IndexError:
 						return importantWords #if less than 20 words, return existing list
 				return importantWords
@@ -59,6 +59,7 @@ def main(input_url = None, top_x = 5, debug = False):
 			else:
 				similarities[gitURL] = -1
 
+		# sorting it to be [-1, ..., 1], grabs the last {top_x} elements and reverse it to be [1, .5, ...]
 		top_repos = reversed(sorted(similarities, key=similarities.get)[-top_x:])
 
 		if debug:
@@ -68,4 +69,4 @@ def main(input_url = None, top_x = 5, debug = False):
 		return top_repos
 
 if __name__ == '__main__':
-	urls = main('https://github.com/technoweenie/duplikate', 10, debug=True)
+	urls = main('https://github.com/technoweenie/duplikate', 20, debug=True)
