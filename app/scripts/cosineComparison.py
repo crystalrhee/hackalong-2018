@@ -71,7 +71,6 @@ def main(input_url = None, top_x = 5, debug = False):
 			if words != 0:
 				scrapedVector = [tagLineDict[word] for word in words]
 				inputVector = [input_readme[word] for word in words] #eliminates word frequency
-				print(tagLineDict)
 				scrapedMagnitude = np.linalg.norm([tagLineDict[word] for word in tfidf(tagLineDict, 30)])
 				cosValue = np.divide(np.dot(scrapedVector, inputVector), np.multiply(scrapedMagnitude, inputMagnitude)) #cos(theta) = a.b/|a||b|
 				similarities[gitURL] = cosValue
