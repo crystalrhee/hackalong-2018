@@ -71,16 +71,10 @@ def main(input_url = None, top_x = 5, debug = False):
 			words = tfidf(unsharedWords(tagLineDict), 30)
 			if words != 0:
 				scrapedVector = [tagLineDict[word] for word in words]
-				frontEndVector = [input_readme[word] for word in words] #eliminates word frequency
-				# print(gitURL, tagLineDict)
-				# print(gitURL, tagLineDict.values())
-				# print(gitURL, scrapedVector)
-				# print(gitURL, scrapedVector,"\n")
-				# print(gitURL, frontEndVector, "\n")
+				inputVector = [input_readme[word] for word in words] #eliminates word frequency
+				print(tagLineDict)
 				scrapedMagnitude = np.linalg.norm([tagLineDict[word] for word in tfidf(tagLineDict, 30)])
-				print(scrapedMagnitude)
-				#cos(theta) = a.b/|a||b|
-				cosValue = np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(scrapedMagnitude, inputMagnitude))
+				cosValue = np.divide(np.dot(scrapedVector, inputVector), np.multiply(scrapedMagnitude, inputMagnitude)) #cos(theta) = a.b/|a||b|
 				similarities[gitURL] = cosValue
 			else:
 				similarities[gitURL] = -1
