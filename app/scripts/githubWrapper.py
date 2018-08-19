@@ -2,7 +2,8 @@
 from urllib import request
 from urllib.error import HTTPError
 from urllib.parse import urlparse
-from config import GithubWrapper as config
+# from config import GithubWrapper as config
+from app.scripts.config import GithubWrapper as config
 import json
 
 def getReadmeFromUrl(repo_url):
@@ -77,4 +78,4 @@ def getRepoInfoFromUrl(url):
                     ['login', 'avatar_url'],
                     True)
     out['contributors'] = contributors
-    return json.dumps(out)
+    return json.dumps([out])

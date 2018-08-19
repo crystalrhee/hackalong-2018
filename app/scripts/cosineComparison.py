@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3
 import numpy as np 
 import csv
 import json
@@ -51,7 +50,19 @@ def main(input_url = None, top_x = 5, debug = False):
 					return 0;
 				else:
 					return importantWords
-					
+
+		"""Using cosine similarity to determine how related two readme files are. Had to adapt the idea a little.
+		a.b has all unused words removed from a and b as their results in the cross product will be 0 anyway (one of the words will have a frequency of 0)
+		and this reduces the amount of loops required to make the vector of the words. After unshaerd words are removed, the tfidf function calculates and returns
+		the top 'x' words (testing with 30, can reduce for more accuracy) to increase accuracy by removing common words like 'the' that two readmes may share in high frequencies
+		the |a||b| section had to be adapted to these methods by retaining the unshared words (their frequencies still contributed), as well as ommiting their own uncommon words.
+		This way, comparisons were not thrown off by one readme being significantly larger than the other, yet still having many of the same unique words, at the same
+		time reducing the value if there was a unique word in one readme that didn't appear in the other. The amount of important words considered should strike a 
+		balance between ommiting common words, without ommiting important words that happen to appear a lot. An alternative might be compiling a list of common words
+		and simply removing those, but that eliminates generality. It may be an idea though to compile a list of common words based on comparing every scraped readme file,
+		and then removing words from that - almost like training our function based on data. That way, high frequency yet unique words wouldn't be taken out, as they'd
+		only be common to the indivisual readme."""
+		
 		inputMagnitude = np.linalg.norm([input_readme[word] for word in tfidf(input_readme, 30)]) 
 		for row in scrapedData:
 			gitURL = row[0]
