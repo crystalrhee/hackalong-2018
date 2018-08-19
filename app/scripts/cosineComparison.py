@@ -42,24 +42,36 @@ def main(input_url = None, top_x = 5, debug = False):
 					try:
 						importantWords.append(sortedDict[-i - 1])
 					except IndexError:
-						return importantWords #if less than 20 words, return existing list
-				return importantWords
+						if len(importantWords) == 0:
+							return 0;
+						else:
+							return importantWords #if less than 20 words, return existing list
+				if len(importantWords) == 0:
+					return 0;
+				else:
+					return importantWords
 
+		inputMagnitude = np.linalg.norm(list(input_readme.values())) #only needs to be calculated once out of loop
 		for row in scrapedData:
 			gitURL = row[0]
 			tagLineDict = json.loads(row[1])
 			words = tfidf(unusedWordRemoval(tagLineDict))
 			if words != 0:
-				scrapedVector = [tagLineDict[i] for i in words]
-				frontEndVector = [input_readme[word] for word in words]
+				scrapedVector = [tagLineDict[word] for word in words]
+				frontEndVector = [input_readme[word] for word in words] #eliminates word frequency - question, should |a| and |b| include or not include important words? Not sure.
+				# print(gitURL, tagLineDict)
+				print(gitURL, tagLineDict.values())
+				print(gitURL, scrapedVector)
+				# print(gitURL, scrapedVector,"\n")
+				# print(gitURL, frontEndVector, "\n")
 				#theta = cos^-1(a.b/|a||b|)
-				cosValue = np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(scrapedVector), np.linalg.norm(frontEndVector)))
+				cosValue = np.divide(np.dot(scrapedVector, frontEndVector), np.multiply(np.linalg.norm(list(tagLineDict.values())), inputMagnitude))
 				similarities[gitURL] = cosValue
 			else:
 				similarities[gitURL] = -1
 
 		# sorting it to be [-1, ..., 1], grabs the last {top_x} elements and reverse it to be [1, .5, ...]
-		top_repos = reversed(sorted(similarities, key=similarities.get)[-top_x:])
+		top_repos = sorted(similarities, key=similarities.get)
 
 		if debug:
 			for repo in top_repos:
