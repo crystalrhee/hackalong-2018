@@ -1,10 +1,10 @@
 #!/usr/local/bin/python3
+import config
+import json
 from urllib import request
 from urllib.error import HTTPError
 from urllib.parse import urlparse
-from config import GithubWrapper as config
-# from app.scripts.config import GithubWrapper as config
-import json
+
 
 def getReadmeFromUrl(repo_url):
     '''Downloads the readme from a github repo url.
@@ -67,10 +67,10 @@ def getRepoInfoFromUrl(url):
     url = urlparse(url)
     api1 = ('https://api.github.com/repos{path}'
             '?access_token={token}').format(path=url.path,
-                                            token=config['token'])
+                                            token=config.TOKEN)
     api2 = ('https://api.github.com/repos{path}/contributors'
             '?access_token={token}').format(path=url.path,
-                                            token=config['token'])
+                                            token=config.TOKEN)
     out = getApi(api1, 
                     ['name', 'description', 'html_url', 'language'],
                     False)
