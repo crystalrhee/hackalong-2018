@@ -79,7 +79,7 @@ def main(input_url = None, top_x = 5, debug = False):
 				similarities[gitURL] = -1
 
 		# sorting it to be [1, 1.2, -1.3, ...] and grabs the first top_x elements
-		top_repos = sorted(similarities, key=lambda repo: abs(similarities[repo] - 1))[:top_x]
+		top_repos = sorted(similarities, key=lambda repo: abs(similarities[repo] - 1.0))[:top_x]
 
 		if debug:
 			from texttable import Texttable
@@ -89,7 +89,6 @@ def main(input_url = None, top_x = 5, debug = False):
 			for repo in top_repos:
 				delta = abs(similarities[repo] - 1)
 				table.add_row([similarities[repo], delta, repo])
-				# print(similarities[repo], delta, repo)
 			print(table.draw())
 
 		return top_repos
