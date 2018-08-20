@@ -84,6 +84,7 @@ def main(input_url = None, top_x = 5, debug = False):
 		if debug:
 			from texttable import Texttable
 			table = Texttable()
+			table.set_cols_dtype(['f', 'f', 't'])
 			table.add_row(['similarity', 'delta', 'url'])
 			for repo in top_repos:
 				delta = abs(similarities[repo] - 1)
