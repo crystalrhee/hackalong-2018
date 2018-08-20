@@ -1,16 +1,4 @@
-GITHUB_TOKEN = 'aa29601edd89d9231648e144bfe0897daf0d5f09'
-RepoFetcher = {
-    'token': GITHUB_TOKEN,
-    'output': 'readmes.csv',
-    'state': 'state'
-}
-TextToDict = {
-    'input': 'readmes.csv',
-    'output': 'scores.csv'
-}
-CosineComparison = {
-    'input': 'scores.csv'
-}
-GithubWrapper = {
-    'token': GITHUB_TOKEN
-}
+TOKEN = 'd1f34ac386c69dc8511cc10516e82d63280d511d'
+READMES = 'readmes.csv'
+SCORES = 'scores.csv'
+STATE = 'state'
