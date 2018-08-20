@@ -4,12 +4,12 @@ import string
 import csv
 from config import TextToDict as config
 
+def removeChars(text):
+    return ''.join([x for x in text.lower() if x in string.ascii_letters + '\'- '])
+
 def textToDict(text):
     vector = {}
-    for word in text.translate(string.punctuation) \
-                    .replace('\n', '') \
-                    .lower() \
-                    .split(' '):
+    for word in removeChars(text).split():
         vector[word] = vector[word] + 1 if word in vector else 1
     return vector
 
