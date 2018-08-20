@@ -82,11 +82,16 @@ def main(input_url = None, top_x = 5, debug = False):
 		top_repos = sorted(similarities, key=lambda repo: abs(similarities[repo] - 1))[:top_x]
 
 		if debug:
+			from texttable import Texttable
+			table = Texttable()
+			table.add_row(['similarity', 'delta', 'url'])
 			for repo in top_repos:
 				delta = abs(similarities[repo] - 1)
-				print(similarities[repo], delta, repo)
+				table.add_row([similarities[repo], delta, repo])
+				# print(similarities[repo], delta, repo)
+			print(table.draw())
 
 		return top_repos
 
 if __name__ == '__main__':
-	urls = main('https://github.com/technoweenie/duplikate', 20, debug=True)
+	urls = main('https://github.com/mojombo/glowstick', 20, debug=True)
