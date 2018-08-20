@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 import numpy as np 
 import csv
 import json
@@ -77,12 +78,13 @@ def main(input_url = None, top_x = 5, debug = False):
 			else:
 				similarities[gitURL] = -1
 
-		# sorting it to be [-1, ..., 1], grabs the last {top_x} elements and reverse it to be [1, .5, ...]
-		top_repos = sorted(similarities, key=similarities.get)
+		# sorting it to be [1, 1.2, -1.3, ...] and grabs the first top_x elements
+		top_repos = sorted(similarities, key=lambda repo: abs(similarities[repo] - 1))[:top_x]
 
 		if debug:
 			for repo in top_repos:
-				print(similarities[repo], repo)
+				delta = abs(similarities[repo] - 1)
+				print(similarities[repo], delta, repo)
 
 		return top_repos
 
