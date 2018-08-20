@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 import numpy as np 
 import csv
 import json
@@ -77,14 +78,20 @@ def main(input_url = None, top_x = 5, debug = False):
 			else:
 				similarities[gitURL] = -1
 
-		# sorting it to be [-1, ..., 1], grabs the last {top_x} elements and reverse it to be [1, .5, ...]
-		top_repos = sorted(similarities, key=similarities.get)
+		# sorting it to be [1, 1.2, -1.3, ...] and grabs the first top_x elements
+		top_repos = sorted(similarities, key=lambda repo: abs(similarities[repo] - 1.0))[:top_x]
 
 		if debug:
+			from texttable import Texttable
+			table = Texttable()
+			table.set_cols_dtype(['f', 'f', 't'])
+			table.add_row(['similarity', 'delta', 'url'])
 			for repo in top_repos:
-				print(similarities[repo], repo)
+				delta = abs(similarities[repo] - 1)
+				table.add_row([similarities[repo], delta, repo])
+			print(table.draw())
 
 		return top_repos
 
 if __name__ == '__main__':
-	urls = main('https://github.com/technoweenie/duplikate', 20, debug=True)
+	urls = main('https://github.com/mojombo/glowstick', 20, debug=True)
