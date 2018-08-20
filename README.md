@@ -1,4 +1,13 @@
-Hackathon Project for Hackalong
+## Inspiration
+Collective brainstorming and ideas forming on top of eachother simply lead to a pretty neat idea about linking developrs on Github together who work on the same kind of things.
+
+## What it does
+Takes your Github repo as an input and compares it's readme files against the readme files of hundreds of thousands of other repos, giving you the ones most likely to be working on similar projects to you. This allows you to find other developers working on similar projects, as well as find existing implementations of your ideas for inspiration.
+
+## How we built it
+The backend consisted of an implendation of the cosine similarity alogirthim - an algorithim that calculates the angle between two sets of text convereted into vectors based on word frequency. We implemented a scraping function that fed data into the cosine similarity algorithim in the backend, and a website front end to input the personal Github repo URL.
+
+We downloaded over ten thousand readme's from different public repos on Github for a sample to be turned into vectors and calculated against an input.
 
 ## Setting up virtualenv
 
@@ -44,4 +53,5 @@ Run this, output will be printed in console if `debug` is set to `true` in `__ma
 
 `python cosineComparison.py`
 
-
+## Link to Devpost Submission
+https://devpost.com/software/repo-finder
