@@ -59,15 +59,15 @@ def main(input_url = None, top_x = 5, debug = False):
 				for repo in top_repos:
 					print(similarities[repo], repo)
 
-			# if debug:
-			# 	from texttable import Texttable
-			# 	table = Texttable()
-			# 	table.set_cols_dtype(['f', 'f', 't'])
-			# 	table.add_row(['similarity', 'delta', 'url'])
-			# 	for repo in top_repos:
-			# 		delta = abs(similarities[repo] - 1)
-			# 		table.add_row([similarities[repo], delta, repo])
-			# 	print(table.draw())
+			if debug:
+				from texttable import Texttable
+				table = Texttable()
+				table.set_cols_dtype(['f', 'f', 't'])
+				table.add_row(['similarity', 'delta', 'url'])
+				for repo in top_repos:
+					delta = abs(similarities[repo] - 1)
+					table.add_row([similarities[repo], delta, repo])
+				print(table.draw())
 
 			return top_repos
 
