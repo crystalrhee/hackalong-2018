@@ -1,10 +1,13 @@
 #!/usr/local/bin/python3
-import numpy as np 
+import config
 import csv
 import json
-from textToDict import textToDict
+
+import numpy as np
+
 from repoFetcher import getReadmeFromUrl
-from config import CosineComparison as config
+from textToDict import textToDict
+
 
 def main(input_url = None, top_x = 5, debug = False):
 	input_readme = {"this":2, "is":1, "a":0, "lit":20, "test":5, "tagline":8, "dish":420, "wash":0, "famalam":40}

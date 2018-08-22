@@ -1,8 +1,9 @@
 #!/usr/local/bin/python3
+import config
+import csv
 import json
 import string
-import csv
-from config import TextToDict as config
+
 
 def removeChars(text):
     return ''.join([x for x in text.lower() if x in string.ascii_letters + '\'- '])
@@ -14,8 +15,8 @@ def textToDict(text):
     return vector
 
 if __name__ == '__main__':
-    with open(config['input'], 'r') as f:
-        with open(config['output'], 'w') as outfile:
+    with open(config.READMES, 'r') as f:
+        with open(config.SCORES, 'w') as outfile:
             reader = csv.reader(f, quotechar='"')
             writer = csv.writer(outfile)
             for row in reader:
