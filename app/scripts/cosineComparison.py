@@ -16,82 +16,57 @@ def main(input_url = None, top_x = 5, debug = False):
 			print('unable to find input repo\'s readme')
 			exit()
 
-
 	with open(config['input'], newline='') as csvfile:
-		scrapedData = csv.reader(csvfile)
-		# key = repo url, value = similarity score (range from [-1, 1], 1 being the same)
-		similarities = {}
+		with open('commonWords.csv', newline='') as csvfile2:
+			scrapedData = csv.reader(csvfile)
+			commonWords = csv.reader(csvfile2)
+			# key = repo url, value = similarity score (range from [-1, 1], 1 being the same)
+			similarities = {}
 
-		def unsharedWords(textDict):
-			intersection = {i:textDict[i] for i in {j for j in textDict}.intersection({k for k in input_readme})}
-			if len(intersection) == 0:
-				return 0
-			else:
-				return intersection
-
-		def tfidf(textDict, size):
-			if textDict == 0:
-				return 0
-			else: 
-				words = list(textDict.keys())
-				importance = {}
-				for word in words:
-					importance[word] = np.divide(1, np.divide(textDict[word], len(input_readme))) #1/freqency -> importance. divided by lenth of input dict to normalize
-				sortedDict = sorted(importance, key=importance.get) #defined outside of loop to only have it sorted once
-				importantWords = []
-				for i in range(size): #return list of 20 most important words
-					try:
-						importantWords.append(sortedDict[-i - 1])
-					except IndexError:
-						if len(importantWords) == 0:
-							return 0;
-						else:
-							return importantWords #if less than 20 words, return existing list
-				if len(importantWords) == 0:
-					return 0;
+			def unsharedWordsRemoval(textDict):
+				intersection = [i for i in set(textDict.keys()).intersection(set(input_readme.keys()))]
+				if len(intersection) == 0:
+					return 0
 				else:
-					return importantWords
+					return intersection
 
-		"""Using cosine similarity to determine how related two readme files are. Had to adapt the idea a little.
-		a.b has all unused words removed from a and b as their results in the cross product will be 0 anyway (one of the words will have a frequency of 0)
-		and this reduces the amount of loops required to make the vector of the words. After unshaerd words are removed, the tfidf function calculates and returns
-		the top 'x' words (testing with 30, can reduce for more accuracy) to increase accuracy by removing common words like 'the' that two readmes may share in high frequencies
-		the |a||b| section had to be adapted to these methods by retaining the unshared words (their frequencies still contributed), as well as ommiting their own uncommon words.
-		This way, comparisons were not thrown off by one readme being significantly larger than the other, yet still having many of the same unique words, at the same
-		time reducing the value if there was a unique word in one readme that didn't appear in the other. The amount of important words considered should strike a 
-		balance between ommiting common words, without ommiting important words that happen to appear a lot. An alternative might be compiling a list of common words
-		and simply removing those, but that eliminates generality. It may be an idea though to compile a list of common words based on comparing every scraped readme file,
-		and then removing words from that - almost like training our function based on data. That way, high frequency yet unique words wouldn't be taken out, as they'd
-		only be common to the indivisual readme."""
-		
-		inputMagnitude = np.linalg.norm([input_readme[word] for word in tfidf(input_readme, 30)]) 
-		for row in scrapedData:
-			gitURL = row[0]
-			tagLineDict = json.loads(row[1])
-			words = tfidf(unsharedWords(tagLineDict), 30)
-			if words != 0:
-				scrapedVector = [tagLineDict[word] for word in words]
-				inputVector = [input_readme[word] for word in words] #eliminates word frequency
-				scrapedMagnitude = np.linalg.norm([tagLineDict[word] for word in tfidf(tagLineDict, 30)])
-				cosValue = np.divide(np.dot(scrapedVector, inputVector), np.multiply(scrapedMagnitude, inputMagnitude)) #cos(theta) = a.b/|a||b|
-				similarities[gitURL] = cosValue
-			else:
-				similarities[gitURL] = -1
+			def commonWordRemoval(wordList):
+				for word in commonWords:
+					wordList.remove(word)
+			
+			inputMagnitude = np.linalg.norm([input_readme[word] for word in tfidf(input_readme, 30)]) 
+			for row in scrapedData:
+				gitURL = row[0]
+				tagLineDict = json.loads(row[1])
+				words = unsharedWordsRemoval(tagLineDict)
+				if words != 0:
+					scrapedVector = [tagLineDict[word] for word in words]
+					inputVector = [input_readme[word] for word in words]
+					scrapedMagnitude = np.linalg.norm([tagLineDict[word] for word in tfidf(tagLineDict, 30)])
+					cosValue = np.divide(np.dot(scrapedVector, inputVector), np.multiply(scrapedMagnitude, inputMagnitude)) #cos(theta) = a.b/|a||b|
+					print(gitURL, cosValue)
+					similarities[gitURL] = cosValue
+				else:
+					similarities[gitURL] = -1
 
-		# sorting it to be [1, 1.2, -1.3, ...] and grabs the first top_x elements
-		top_repos = sorted(similarities, key=lambda repo: abs(similarities[repo] - 1.0))[:top_x]
+			# sorting it to be [1, 1.2, -1.3, ...] and grabs the first top_x elements
+			top_repos = sorted(similarities, key=lambda repo: abs(similarities[repo] - 1.0))[:top_x]
 
-		if debug:
-			from texttable import Texttable
-			table = Texttable()
-			table.set_cols_dtype(['f', 'f', 't'])
-			table.add_row(['similarity', 'delta', 'url'])
-			for repo in top_repos:
-				delta = abs(similarities[repo] - 1)
-				table.add_row([similarities[repo], delta, repo])
-			print(table.draw())
+			if debug:
+				for repo in top_repos:
+					print(similarities[repo], repo)
 
-		return top_repos
+			# if debug:
+			# 	from texttable import Texttable
+			# 	table = Texttable()
+			# 	table.set_cols_dtype(['f', 'f', 't'])
+			# 	table.add_row(['similarity', 'delta', 'url'])
+			# 	for repo in top_repos:
+			# 		delta = abs(similarities[repo] - 1)
+			# 		table.add_row([similarities[repo], delta, repo])
+			# 	print(table.draw())
+
+			return top_repos
 
 if __name__ == '__main__':
 	urls = main('https://github.com/mojombo/glowstick', 20, debug=True)
