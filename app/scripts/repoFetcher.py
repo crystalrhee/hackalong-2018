@@ -32,19 +32,22 @@ def runMultiple(repo_urls, outfile, threads=2):
     pool.close()
     pool.join()
 
+def restoreState():
+    try:
+        # found the previous state/id, use that
+        state = open(config.STATE, 'r')
+        s = state.read()
+        return int(s) if s else 1
+    except:
+        # file doesn't exist or bad state content, create a new state
+        state = open(config.STATE, 'w')
+        return 1
+
 if __name__ == '__main__':
     with open(config.READMES, 'a') as outfile:
         writer = csv.writer(outfile)
         # state keeps track of the current/previous repo ID (begins from 1)
-        try:
-            # found the previous state/id, use that
-            state = open(config.STATE, 'r')
-            s = state.read()
-            prev_id = int(s) if s else 1
-        except:
-            # file doesn't exist or bad state content, create a new state
-            state = open(config.STATE, 'w')
-            prev_id = 1
+        prev_id = restoreState()
         try:
             failure_count = 0
             while True:
