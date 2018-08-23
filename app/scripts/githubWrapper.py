@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3
 import config
 import json
 from urllib import request
