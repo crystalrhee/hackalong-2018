@@ -14,7 +14,7 @@ with open('scores.csv', newline='') as csvfile:
 			yield tb(readme)
 
 	#creates two independant generators that wont share iteraiton position
-	textBlob1, textBlob2 = tee(textBlobIterator, n=2) 
+	textBlob1, textBlob2 = tee(textBlobIterator(), 2) 
 
 	def tf(word, blob):
 	    return np.divide(blob.words.count(word), len(blob.words))
@@ -30,8 +30,6 @@ with open('scores.csv', newline='') as csvfile:
 
 	scores = {}
 
-	writer = csv.writer('commonWords.csv', delimiter=)
-
 	for blob in textBlob1:
 		for word in blob.words:
 			scores[word] = tfidf(word, blob)
@@ -39,5 +37,8 @@ with open('scores.csv', newline='') as csvfile:
 	size = 50
 	scores = reversed(sorted(scores.items(),key=itemgetter(0)))[:-size]
 
-	for word in list(scores.keys()):
-		writer.writerow(word)
+	with open('commonWords.csv', 'w') as outfile:
+		writer = csv.writer(outfile, delimiter='"')
+
+		for word in list(scores.keys()):
+			writer.writerow(word)
