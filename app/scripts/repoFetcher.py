@@ -4,7 +4,7 @@ import json
 from multiprocessing.dummy import Pool
 from urllib import request
 
-from githubWrapper import getReadmeFromUrl
+from githubWrapper import getReadmeFromUrl, getPublicRepos
 
 prev_id = 1
 writer = None
@@ -47,30 +47,21 @@ if __name__ == '__main__':
             prev_id = 1
         try:
             failure_count = 0
-            # Each iteration will fetch about 364 readmes because each api request returns that much (by defaut)
             while True:
                 try:
-                    # using an access token allows to make 5000 requests per hour (2018/08/14)
-                    url = 'https://api.github.com/repositories?access_token={}&since={}'.format(config.TOKEN, prev_id)
-                    with request.urlopen(url) as response:
-                        print('====== downloading', prev_id, '======')
-                        page = response.read().decode('utf-8')
-                        repo_links = []
-                        for o in json.loads(page):
-                            html = o['html_url']
-                            repo_links.append(html)
-                            prev_id = o['id']
-                        try:
-                            runMultiple(repo_links, outfile, 12)
-                            # stores the state every ~364 repos being downloaded
-                            # Note: this implementation will not re-download each failed download or check for duplicates,
-                            #       it will simply resume at the previous N * 364'th ID and potentially have duplicates in the output
-                            with open(config.STATE, 'w') as state:
-                                state.write(str(prev_id))
-                        except Exception as e:
-                            print('abc')
-                            print(e)
-                            pass
+                    # Each iteration will fetch about 364 readmes because each api request returns that much (by defaut)
+                    print('====== downloading', prev_id, '======')
+                    repo_links, prev_id = getPublicRepos(prev_id)
+                    try:
+                        runMultiple(repo_links, outfile, 12)
+                        # stores the state every ~364 repos being downloaded
+                        # Note: this implementation will not re-download each failed download or check for duplicates,
+                        #       it will simply resume at the previous N * 364'th ID and potentially have duplicates in the output
+                        with open(config.STATE, 'w') as state:
+                            state.write(str(prev_id))
+                    except Exception as e:
+                        print(e)
+                        pass
                 except Exception as e:
                     failure_count += 1
                     print(e)
