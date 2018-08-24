@@ -5,11 +5,12 @@ from itertools import tee
 from operator import itemgetter
 
 with open('scores.csv', newline='') as csvfile:
-	scrapedData = csv.reader(csvfile)
+	csvLength, csvContents = tee(csv.reader(csvfile), 2)
+	length = sum(1 for row in csvLength)
 
 	#using a generator to avoid using several gigs of memory while calculating
 	def textBlobIterator(): 
-		for row in scrapedData:
+		for row in csvContents:
 			readme = row[1]
 			yield tb(readme)
 
@@ -18,13 +19,13 @@ with open('scores.csv', newline='') as csvfile:
 	textBlob1, textBlob2 = tee(textBlobIterator(), 2)
 
 	def tf(word, blob):
-	    return np.divide(blob.words.count(word), len(blob.words))
+		return np.divide(blob.words.count(word), len(blob.words))
 
 	def n_containing(word):
 	    return sum(1 for blob in textBlob2 if word in blob.words)
 
 	def idf(word):
-	    return np.log(np.divide(sum(1 for row in scrapedData), np.add(1, n_containing(word))))
+	    return np.log(np.divide(length, np.add(1, n_containing(word))))
 
 	def tfidf(word, blob):
 	    return np.multiply(tf(word, blob), idf(word))
@@ -32,16 +33,14 @@ with open('scores.csv', newline='') as csvfile:
 	scores = {}
 
 	for blob in textBlob1:
-		for word in blob.words:
-			scores[word] = tfidf(word, blob)
+		scores = {word: tfidf(word, blob) for word in blob.words}
 
 	size = 50
-
-	print(scores.items())
-	scores = sorted(scores.items(),key=itemgetter(0)).reverse()[:-size]
+	sorted_words = sorted(scores.items(), key=lambda x: x[1])[:size]
+	print(sorted_words)
 
 	with open('commonWords.csv', 'w') as outfile:
-		writer = csv.writer(outfile, delimiter='"')
+		writer = csv.writer(outfile, delimiter=' ')
 
 		for word in list(scores.keys()):
 			writer.writerow(word)
