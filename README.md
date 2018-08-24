@@ -53,5 +53,12 @@ Run this, output will be printed in console if `debug` is set to `true` in `__ma
 
 `python cosineComparison.py`
 
+## Resetting all data
+### Remove all csv
+`cd app/scripts`
+`rm *.csv`
+### Reset the state for the repoFetcher, reset github repo id back to 1
+`rm state`
+
 ## Link to Devpost Submission
 https://devpost.com/software/repo-finder

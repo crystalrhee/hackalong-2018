@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3
 import config
 import json
 from urllib import request
@@ -79,3 +78,26 @@ def getRepoInfoFromUrl(url):
                     True)
     out['contributors'] = contributors
     return json.dumps([out])
+
+def getPublicRepos(since_id):
+    ''' Returns ~364 public repo urls at a time
+    Args:
+        since_id: id of the repo to start
+    Returns:
+        list of repo urls
+    '''
+    # using an access token allows to make 5000 requests per hour (2018/08/14)
+    url = 'https://api.github.com/repositories?access_token={}&since={}'.format(config.TOKEN, since_id)
+    try:
+        with request.urlopen(url) as response:
+            prev_id = since_id
+            page = response.read().decode('utf-8')
+            repo_links = []
+            for o in json.loads(page):
+                html = o['html_url']
+                repo_links.append(html)
+                prev_id = o['id']
+            return repo_links, prev_id
+    except Exception as e:
+        print('unable to fetch public repo information')
+        raise e

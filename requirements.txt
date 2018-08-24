@@ -3,7 +3,10 @@ Flask==1.0.2
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+nltk==3.3
 numpy==1.15.0
 python-dotenv==0.9.1
+six==1.11.0
+textblob==0.15.1
 texttable==1.4.0
 Werkzeug==0.14.1
